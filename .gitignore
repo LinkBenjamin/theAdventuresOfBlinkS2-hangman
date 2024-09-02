@@ -1,0 +1,2 @@
+# Ignore the location of the docker volume for the DB
+/database/mongo_data/*
