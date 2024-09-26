@@ -2,3 +2,5 @@
 /database/mongo_data/
 .env
 __pycache__/
+.venv
+.pytest_cache
