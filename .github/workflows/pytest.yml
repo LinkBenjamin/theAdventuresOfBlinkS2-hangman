@@ -5,14 +5,14 @@ on:
     # branches says we’re filtering by branch name
     branches:
       # These filters say to accept any branch except for ‘main’.  We do this because we want the tests to run when we push our code up and give us instant feedback, but we don’t want to re-run them when we PR/merge.
-      - ‘*’
-      - ‘*/*’
-      - ‘**’
-      - ‘!main’
+      - '*'
+      - '*/*'
+      - '**'
+      - '!main'
     # Paths gives us the ability to state that we want the workflow to run ONLY when code in certain parts of the codebase are changed.  For example: if we change the database docker file, there’s no sense in unit testing our frontend code again!
     paths:
       # Run when anything ending in .py in the frontend folder changes… even nested items.
-      - ‘hangman/**/*.py’
+      - 'hangman/**/*.py'
 
 # Jobs are related sets of steps we can run on our codebase.  You might have “run unit tests” like we’re doing, but you can make more complex flows that integration-test our entire app - run the database container, the api container, and the frontend app all together and do whatever validation you like.
 jobs:
