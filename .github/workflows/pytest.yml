@@ -13,6 +13,8 @@ on:
     paths:
       # Run when anything ending in .py in the frontend folder changes… even nested items.
       - 'hangman/**/*.py'
+      # Also run if we make changes to the Action workflow file.
+      - '.github/workflows/pytest.yml'
 
 # Jobs are related sets of steps we can run on our codebase.  You might have “run unit tests” like we’re doing, but you can make more complex flows that integration-test our entire app - run the database container, the api container, and the frontend app all together and do whatever validation you like.
 jobs:
@@ -31,7 +33,6 @@ jobs:
           Python-version: "3.12"
     - name: 'Install dependencies'
       run: |
-         python -m pip install —upgrade pip
          pip install -r hangman/requirements.txt
          pip install pytest
     - name: 'Run pytest'

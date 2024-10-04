@@ -1,4 +1,4 @@
-'''Hangman game functions'''
+'''Hangman game state machine's functions'''
 
 import re
 
