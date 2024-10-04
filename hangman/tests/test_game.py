@@ -36,7 +36,7 @@ def test_correct_guess(new_game):
     # Validate that the method returns the right value and
     # also that it updates the game appropriately.
     assert result is True
-    assert game.display_word == "P_____"  # 'P' revealed
+    assert game.get_display_word == "P_____"  # 'P' revealed
     assert game.guessed_letters == ["P"]
 
 # Next we should validate what happens if the letter is NOT
@@ -71,8 +71,8 @@ def test_game_won(new_game):
     game.guess("H")
     game.guess("O")
     game.guess("N")
-    assert game.is_won() is True
-    assert game.is_over is True
+    assert game.game_won is True
+    assert game.game_over is True
 
 # And of course, we should validate that you can lose the game too!
 def test_game_lost(new_game):
@@ -81,8 +81,8 @@ def test_game_lost(new_game):
     for guess in ["A", "B", "C", "D", "E", "F"]:
         game.guess(guess)
     assert game.remaining_lives == 0
-    assert game.is_over is True
-    assert game.is_won() is False
+    assert game.game_over is True
+    assert game.game_won is False
 
 # Finally, we need to ensure that duplicate guesses of a letter
 # are ignored by the game state.
