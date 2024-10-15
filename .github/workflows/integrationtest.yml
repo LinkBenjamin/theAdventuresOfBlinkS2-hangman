@@ -1,0 +1,60 @@
+name: Run Integration Tests
+
+on: 
+  pull_request: 
+    branches: 
+      - main  # or whichever branch you want to target
+
+jobs:
+  integration-tests:
+    runs-on: ubuntu-latest
+
+    services:
+      # Spin up the backend services with docker-compose
+      docker:
+        image: docker:19.03.12
+        options: --privileged  # Allow docker-compose to run within the container
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+      
+    steps:
+      # Checkout your code repository
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      # Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      # Install Docker Compose
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install docker-compose -y
+
+      # Install dependencies for the Python app (if needed)
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Build and start your backend services using docker-compose
+      - name: Start Backend Services
+        run: |
+          docker-compose up --build -d
+          docker-compose ps
+
+      # Add a wait to ensure services are ready (adjust the timing as needed)
+      - name: Wait for services to be ready
+        run: sleep 20  # You can use curl or nc to check if services are up instead of sleep
+
+      # Run the integration tests
+      - name: Run Integration Tests
+        run: pytest -m integration
+
+      # Tear down the services after the tests
+      - name: Shutdown Docker Compose
+        if: always()
+        run: docker-compose down
