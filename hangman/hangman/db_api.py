@@ -8,3 +8,6 @@ class HangmanDB_Integration:
 
     def random(self):
         return requests.get(self.random_url)
+
+    def add(self):
+        pass
