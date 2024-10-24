@@ -21,6 +21,62 @@ client = MongoClient(mongo_uri)
 db = client[db_name]
 collection = db[collection_name]
 
+@app.route('/getall', methods=['GET'])
+def get_all_items():
+    try:
+        # Find all records in the collection
+        words = list(collection.find({}, {"_id": 0}))  # Exclude _id field from the response
+        return jsonify(words), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/edit", methods=["PUT"])
+def edit_word():
+    """API endpoint to edit an existing word and its hint."""
+    data = request.get_json()  # Get the JSON data from the request
+    phrase = data.get('phrase')  # The new or existing phrase
+    hint = data.get('hint')  # The new or existing hint
+    original_phrase = data.get('original_phrase')  # The identifier for the word to update
+
+    if not original_phrase:
+        return jsonify({"error": "Original phrase is required"}), 400
+
+    try:
+        # Find the document with the original phrase and update it
+        result = collection.update_one(
+            {"phrase": original_phrase},
+            {"$set": {"phrase": phrase, "hint": hint}}
+        )
+
+        if result.matched_count == 0:
+            return jsonify({"error": "Phrase not found"}), 404
+
+        return jsonify({"message": "Word updated successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+@app.route("/delete", methods=["DELETE"])
+def delete_word():
+    """API endpoint to delete a word and its hint."""
+    data = request.get_json()  # Get the JSON data from the request
+    phrase = data.get('phrase')  # The phrase to delete
+
+    if not phrase:
+        return jsonify({"error": "Phrase is required"}), 400
+
+    try:
+        # Delete the document where the phrase matches
+        result = collection.delete_one({"phrase": phrase})
+
+        if result.deleted_count == 0:
+            return jsonify({"error": "Phrase not found"}), 404
+
+        return jsonify({"message": "Word deleted successfully"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/add', methods=['POST'])
 def add_item():
 
