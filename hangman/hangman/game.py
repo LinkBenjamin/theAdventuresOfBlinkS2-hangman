@@ -10,7 +10,6 @@ class Hangman:
         self._is_over = False
         self._is_won = False
         self._word = word.upper()
-
         self._display_word = self._calculate_display_word()
     
     @property
@@ -39,7 +38,7 @@ class Hangman:
     
     def _calculate_display_word(self):
         '''Starting with a series of underscores that represent the letters in a word/phrase, fill in the blanks with the letters that have already been guessed.'''
-        start = re.sub(r'[a-zA-Z0-9]', '_', self._word)
+        start = re.sub(r'[^ \t\n,.!?;:()\[\]{}]', '_', self._word)
         return self._reveal_letters(start)
     
     def _reveal_letters(self, start):
@@ -50,6 +49,8 @@ class Hangman:
                     end.append(self.get_word[index])
                 else:
                     end.append(start[index])
+            if start[index] in ' \t\n,.!?;:()[]{}':
+                end.append(start[index])
         return ''.join(end)
 
     def guess(self, letter):

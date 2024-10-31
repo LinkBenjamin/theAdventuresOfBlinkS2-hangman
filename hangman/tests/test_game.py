@@ -13,18 +13,24 @@ def new_game():
     # the word "PYTHON" as its content.
     return Hangman("PYTHON")  # Example game phrase
 
+@pytest.fixture
+def new_phrase_game():
+    return Hangman("TWO WORDS")
+
 # Our first test defines the initial state of the game.
 # We list our expectations here and verify that the new
 # object meets those expectations.
-def test_initial_game_state(new_game):
+def test_initial_game_state(new_game, new_phrase_game):
     """Test the initial state of the game."""
     # Create a new game
     game = new_game
+    game2 = new_phrase_game
     # Check the values we expect the game to have for these values
     assert game.remaining_lives == 6  # Assuming 6 lives to start
     assert game.get_display_word == "______"  # Hidden word
     assert game.guessed_letters == []  # No guesses yet
     assert game.game_over is False  # Game isn't over
+    assert game2.get_display_word == "___ _____"
 
 # Our next test validates what happens when you select
 # a letter that DOES appear in the puzzle.
