@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'flask-api'
+    metrics_path: '/metrics'  # Endpoint from Flask app
+    static_configs:
+      - targets: ['hangman-api:5001']
+
+  - job_name: 'mongo'
+    metrics_path: '/metrics'  # Endpoint for the MongoDB Exporter
+    static_configs:
+      - targets: ['mongo-exporter:9216']  # Default port for MongoDB Exporter
