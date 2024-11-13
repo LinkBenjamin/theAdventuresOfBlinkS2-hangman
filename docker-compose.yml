@@ -49,3 +49,33 @@ services:
       - "3000:3000"
     depends_on:
       - prometheus
+
+  llm:
+    build:
+      context: ./llm
+      dockerfile: Dockerfile
+    container_name: ollama-container
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "11434:11434"
+    volumes:
+      - ./llm:/app
+  
+  llm-api:
+    build:
+      context: ./llm-api
+      dockerfile: Dockerfile
+    container_name: llm-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "5002:5002"
+    depends_on:
+      - llm
+    volumes:
+      - ./llm-api:/app
+    environment:
+      - LLM_URI=${LLM_URI}

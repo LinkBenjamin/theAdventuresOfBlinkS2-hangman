@@ -16,6 +16,22 @@ Hey pals!  If you stumbled across this repo direct from GitHub, this is a tutori
 
 `Actions Workflow` - In Episode 5, we're introducing a GitHub Actions workflow to automatically run our unit tests when we commit to a branch.
 
+## An .env file
+
+Create a .env in the project root (it will be .gitignored).  Here are the elements you should identify in your .env:
+
+```bash
+MONGO_URI=
+MONGO_URI_API=
+MONGO_INITDB_ROOT_USERNAME=
+MONGO_INITDB_ROOT_PASSWORD=
+DB_NAME=
+COLLECTION_NAME=
+API_URL=
+LLM_URI=
+MODEL_ID=
+```
+
 ## Running Hangman
 
 This will vary from episode to episode, but generally speaking we're going to try to run our application in the following manner:
