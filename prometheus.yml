@@ -7,6 +7,11 @@ scrape_configs:
     static_configs:
       - targets: ['hangman-api:5001']
 
+  - job_name: 'llm-api'
+    metrics_path: '/metrics'  # Endpoint from llm api
+    static_configs:
+      - targets: ['llm-api:5002']
+
   - job_name: 'mongo'
     metrics_path: '/metrics'  # Endpoint for the MongoDB Exporter
     static_configs:

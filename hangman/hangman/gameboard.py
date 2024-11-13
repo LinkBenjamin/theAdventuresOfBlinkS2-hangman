@@ -92,15 +92,15 @@ class GameWindow(tk.Toplevel):
                     widget.unbind("<FocusIn>")
 
 # Usage Example within GameBoard class
-class GameBoard:
-    def __init__(self, root, open_editor_callback):
-        self.root = root
+# class GameBoard:
+#     def __init__(self, root, open_editor_callback):
+#         self.root = root
         
-        # Initialize game state and database
-        self.db_integration = HangmanDB_Integration()  # Instantiate your DB integration
-        word = self.db_integration.random()
-        self.game_state = Hangman(word.json()['phrase'])
-        self.hint = word.json()['hint']
+#         # Initialize game state and database
+#         self.db_integration = HangmanDB_Integration()  # Instantiate your DB integration
+#         word = self.db_integration.random()
+#         self.game_state = Hangman(word.json()['phrase'])
+#         self.hint = word.json()['hint']
         
-        # Open the game modal window
-        GameWindow(self.game_state, self.hint, self.db_integration)
+#         # Open the game modal window
+#         GameWindow(self.game_state, self.hint, self.db_integration)
